@@ -12,6 +12,7 @@ exports.authCheck = async(req,res,next)=>{
         const token = headerToken.split(" ")[1]
         const decode = jwt.verify(token,process.env.SECRET)
         req.user = decode
+        console.log('Decoded Token:', decode); 
 
 
         const user = await prisma.user.findFirst({
@@ -38,6 +39,7 @@ exports.adminCheck = async(req,res,next)=>{
             where:{ email:email }
         })
         if(!adminUser || adminUser.role !== 'admin'){
+            console.log('Admin Check Failed:', adminUser); // ตรวจสอบ User
             return res.status(403).json({ message:('Acess Denied: Admin only')})
         }
         // console.log('admin check',adminUser)

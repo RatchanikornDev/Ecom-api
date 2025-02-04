@@ -30,6 +30,7 @@ exports.register = async (req, res) => {
       data: {
         email: email,
         password: hashPassword,
+        isAdmin: isAdmin || false,
       },
     })
 
@@ -65,7 +66,7 @@ exports.login = async (req, res) => {
       role: user.role,
     }
     //step4 Generate Token
-    jwt.sign(payload, process.env.SECRET, { expiresIn: '7d' }, (err, token) => {
+    jwt.sign(payload, process.env.SECRET, { expiresIn: '365d' }, (err, token) => {
       if (err) {
         return res.status(500).json({ message: 'server Error' })
       }
